@@ -1,13 +1,15 @@
-from flask import request, redirect
+# show.py
+import os
+import pandas as pd
+from flask import render_template, request, jsonify, current_app
 
-@app.route("/showdata", methods=["GET"])
 def show_data():
     filename = request.args.get("filename")
-    
+
     if not filename:
         return "No file selected.", 400
 
-    full_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+    full_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
 
     if not os.path.exists(full_path):
         return "File does not exist.", 404

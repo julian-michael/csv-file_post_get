@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify,render_template
 import os
 import pandas as pd
 
-# from show import show_data
+from show import show_data
 
 
 uploaded_files = []
@@ -49,19 +49,7 @@ def upload_csv():
 
 @app.route("/showdata", methods=["GET"])
 def show():
-    show_data()
-def show_data():
-    global csv_filename
-
-    if not csv_filename:
-        return "No CSV file uploaded yet!", 400
-
-    try:
-        df = pd.read_csv(csv_filename)
-        return render_template("data.html", tables=[df.to_html(classes='data', index=False)], titles=df.columns.values)
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
+    return show_data()  # Call the separated function
 
 @app.route('/files', methods=['GET'])
 def list_files():
@@ -70,3 +58,4 @@ def list_files():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
